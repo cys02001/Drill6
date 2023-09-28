@@ -66,7 +66,8 @@ while running:
         character_x, character_y = move_character(character_x, character_y, arrow_x, arrow_y, move_speed)
         if character_x == arrow_x and character_y == arrow_y:
             arrows.pop()
-
+    else:
+        draw_character(character_x, character_y, '')
     update_canvas()
     frame = (frame + 1) % 8
     handle_events()
