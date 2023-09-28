@@ -18,7 +18,6 @@ def handle_events():
             running = False
         elif event.type == SDL_MOUSEBUTTONDOWN:
             if event.button == SDL_BUTTON_LEFT:
-                # 새로운 화살을 배열의 처음에 추가하고 화살 위치를 설정
                 arrow_x, arrow_y = event.x, TUK_HEIGHT - event.y
                 arrows.insert(0, (arrow_x, arrow_y))
 
@@ -55,15 +54,19 @@ while running:
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
 
-    draw_arrow(arrow_x, arrow_y)
+    for arrow_x, arrow_y in arrows:
+        draw_arrow(arrow_x, arrow_y)
 
-    if arrow_x < character_x:
-        draw_character(character_x, character_y, '')
-    else:
-        draw_character(character_x, character_y, 'h')
+    if arrows:
+        arrow_x, arrow_y = arrows[-1]
+        if arrow_x < character_x:
+            draw_character(character_x, character_y, '')
+        else:
+            draw_character(character_x, character_y, 'h')
+        character_x, character_y = move_character(character_x, character_y, arrow_x, arrow_y, move_speed)
+        if character_x == arrow_x and character_y == arrow_y:
+            arrows.pop()
 
-    character_x, character_y = move_character(character_x, character_y, arrow_x, arrow_y, move_speed)
-    
     update_canvas()
     frame = (frame + 1) % 8
     handle_events()
