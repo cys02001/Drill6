@@ -46,7 +46,7 @@ frame = 0
 
 arrow_x, arrow_y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 character_x, character_y = TUK_WIDTH // 2, TUK_HEIGHT // 2
-move_speed = 1
+move_speed = 2
 
 arrows = []
 
