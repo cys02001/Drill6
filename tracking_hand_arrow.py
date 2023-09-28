@@ -16,6 +16,12 @@ def handle_events():
             running = False
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
+        elif event.type == SDL_MOUSEBUTTONDOWN:
+            if event.button == SDL_BUTTON_LEFT:
+                # 새로운 화살을 배열의 처음에 추가하고 화살 위치를 설정
+                arrow_x, arrow_y = event.x, TUK_HEIGHT - event.y
+                arrows.insert(0, (arrow_x, arrow_y))
+
 
 def draw_character(x, y, flip):
     character.clip_composite_draw(frame * 100, 0, 100, 100, 0, flip, x, y, 200, 200)
@@ -39,11 +45,11 @@ def move_character(character_x, character_y, target_x, target_y, move_speed):
 running = True
 frame = 0
 
-arrow_x = random.randint(0, TUK_WIDTH)
-arrow_y = random.randint(0, TUK_HEIGHT)
-
+arrow_x, arrow_y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 character_x, character_y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 move_speed = 1
+
+arrows = []
 
 while running:
     clear_canvas()
@@ -57,10 +63,7 @@ while running:
         draw_character(character_x, character_y, 'h')
 
     character_x, character_y = move_character(character_x, character_y, arrow_x, arrow_y, move_speed)
-    if character_x == arrow_x and character_y == arrow_y:
-        arrow_x = random.randint(0, TUK_WIDTH)
-        arrow_y = random.randint(0, TUK_HEIGHT)
-
+    
     update_canvas()
     frame = (frame + 1) % 8
     handle_events()
